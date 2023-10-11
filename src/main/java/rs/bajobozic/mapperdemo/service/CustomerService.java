@@ -6,13 +6,9 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import rs.bajobozic.mapperdemo.dto.AddressDto;
 import rs.bajobozic.mapperdemo.dto.CustomerDto;
-import rs.bajobozic.mapperdemo.dto.CustomerItemDto;
 import rs.bajobozic.mapperdemo.entity.Customer;
 import rs.bajobozic.mapperdemo.exception.CustomerNotFoundException;
-import rs.bajobozic.mapperdemo.mapper.AddressMapper;
-import rs.bajobozic.mapperdemo.mapper.CustomerItemMapper;
 import rs.bajobozic.mapperdemo.mapper.CustomerMapper;
 import rs.bajobozic.mapperdemo.repository.CustomerRepository;
 
@@ -39,18 +35,7 @@ public class CustomerService {
         if (dbCustomer.isPresent())
             throw new IllegalArgumentException(
                     "Customer with first name " + customerDto.getFirstName() + " already exist");
-
-        List<CustomerItemDto> customerItemsDtos = customerDto.getCustomerItems();
-        AddressDto addressDto = customerDto.getAddress();
-        Customer customer = CustomerMapper.INSTANCE.convertDto(customerDto);
-
-        customerItemsDtos
-                .stream()
-                .map(dto -> CustomerItemMapper.INSTANCE.convert(dto))
-                .toList()
-                .forEach(item -> customer.addCustomerItem(item));
-        customer.addAddress(AddressMapper.INSTANCE.convertDto(addressDto));
-        customerRepository.save(customer);
+        customerRepository.save(CustomerMapper.INSTANCE.convertDto(customerDto));
     }
 
     @Transactional
