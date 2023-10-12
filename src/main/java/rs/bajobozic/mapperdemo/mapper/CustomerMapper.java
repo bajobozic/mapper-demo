@@ -23,11 +23,11 @@ public interface CustomerMapper {
 
     @Mapping(source = "firstName", target = "firstName")
     @Mapping(source = "lastName", target = "lastName")
-    @Mapping(target = "date", expression = "java(home.getCreatedAt().format(DateTimeFormatter.ofPattern(\"dd/MM/yyyy\")))")
+    @Mapping(target = "date", expression = "java(customer.getCreatedAt().format(DateTimeFormatter.ofPattern(\"dd/MM/yyyy\")))")
     @Mapping(source = "department", target = "department")
     @Mapping(source = "address", target = "address")
     @Mapping(source = "customerItems", target = "customerItems")
-    CustomerDto convert(Customer home);
+    CustomerDto convert(Customer customer);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "firstName", target = "firstName")
@@ -36,13 +36,13 @@ public interface CustomerMapper {
     @Mapping(source = "department", target = "department")
     @Mapping(target = "address", ignore = true)
     @Mapping(target = "customerItems", ignore = true)
-    Customer convertDto(CustomerDto homeDto);
+    Customer convertDto(CustomerDto customerDto);
 
     @InheritConfiguration
     void update(CustomerDto customerDto, @MappingTarget Customer customer);
 
     @AfterMapping
-    default void updateJpaRelations(CustomerDto customerDto, @MappingTarget Customer customer) {
+    default void updateAssociatedTables(CustomerDto customerDto, @MappingTarget Customer customer) {
         List<CustomerItemDto> customerItemsDtos = customerDto.getCustomerItems();
         AddressDto addressDto = customerDto.getAddress();
 
