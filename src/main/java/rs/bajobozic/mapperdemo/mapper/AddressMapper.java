@@ -20,6 +20,7 @@ public interface AddressMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "houseNumber", expression = "java(String.valueOf( addressDto.getNumber()))")
     @Mapping(source = "city", target = "cityName")
+    @Mapping(target = "customer", ignore = true)
     Address convertDto(AddressDto addressDto);
 
     @InheritConfiguration

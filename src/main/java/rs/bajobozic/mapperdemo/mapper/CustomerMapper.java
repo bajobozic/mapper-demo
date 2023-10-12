@@ -34,7 +34,7 @@ public interface CustomerMapper {
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(target = "createdAt", expression = "java(LocalDate.now())")
     @Mapping(source = "department", target = "department")
-    @Mapping(target = "address", ignore = true)
+    @Mapping(source = "address", target = "address")
     @Mapping(source = "customerItems", target = "customerItems")
     Customer convertDto(CustomerDto customerDto);
 
@@ -46,19 +46,16 @@ public interface CustomerMapper {
         List<CustomerItemDto> customerItemsDtos = customerDto.getCustomerItems();
         AddressDto addressDto = customerDto.getAddress();
 
-        // create or update addresses
+        // init, update or delete association mappings for customer items
         if (customerItemsDtos != null) {
             customer.updateCustomerItems();
         } else {
             customer.removeCustomerItems(customer.getCustomerItems());
         }
 
-        // create or update addresses
+        // init, update or delete association mappings for addresses
         if (addressDto != null) {
-            if (customer.getAddress() != null)
-                AddressMapper.INSTANCE.updateAddress(addressDto, customer.getAddress());
-            else
-                customer.addAddress(AddressMapper.INSTANCE.convertDto(addressDto));
+            customer.updateAddress();
         } else {
             customer.removeAddress(customer.getAddress());
         }

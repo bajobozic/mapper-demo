@@ -72,11 +72,8 @@ public class Customer {
 
     // this is needed for correct saving customer into DB when using JPA
     // it's neccessary to do it manualy
-    public void addAddress(Address address) {
-        if (address == null)
-            return;
-        this.address = address;
-        address.setCustomer(this);
+    public void updateAddress() {
+        this.address.setCustomer(this);
     }
 
     public void removeAddress(Address address) {
@@ -85,4 +82,5 @@ public class Customer {
         address.setCustomer(null);
         this.address = null;
     }
+
 }
