@@ -38,13 +38,7 @@ public interface CustomerMapper {
     @Mapping(target = "customerItems", ignore = true)
     Customer convertDto(CustomerDto homeDto);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(source = "firstName", target = "firstName")
-    @Mapping(source = "lastName", target = "lastName")
-    @Mapping(target = "createdAt", expression = "java(LocalDate.now())")
-    @Mapping(source = "department", target = "department")
-    @Mapping(source = "address", target = "address")
-    @Mapping(target = "customerItems", ignore = true)
+    @InheritConfiguration
     void update(CustomerDto customerDto, @MappingTarget Customer customer);
 
     @AfterMapping
