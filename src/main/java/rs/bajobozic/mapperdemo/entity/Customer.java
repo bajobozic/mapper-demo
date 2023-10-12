@@ -66,7 +66,7 @@ public class Customer {
     }
 
     public void removeAddress(Address address) {
-        this.address = null;
         address.setCustomer(null);
+        this.address=null;
     }
 }

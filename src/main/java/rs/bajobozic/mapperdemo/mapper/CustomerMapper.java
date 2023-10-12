@@ -10,6 +10,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.util.Pair;
 
 import rs.bajobozic.mapperdemo.dto.AddressDto;
 import rs.bajobozic.mapperdemo.dto.CustomerDto;
@@ -45,13 +46,35 @@ public interface CustomerMapper {
     default void updateJpaRelations(CustomerDto customerDto, @MappingTarget Customer customer) {
         List<CustomerItemDto> customerItemsDtos = customerDto.getCustomerItems();
         AddressDto addressDto = customerDto.getAddress();
-        if (customerItemsDtos != null)
-            customerItemsDtos
-                    .stream()
-                    .map(dto -> CustomerItemMapper.INSTANCE.convert(dto))
-                    .toList()
-                    .forEach(item -> customer.addCustomerItem(item));
-        if (customer.getAddress() == null)
-            customer.addAddress(AddressMapper.INSTANCE.convertDto(addressDto));
+        
+        // create or update addresses
+        if (customerItemsDtos != null) {
+            if (customer.getCustomerItems() != null && !customer.getCustomerItems().isEmpty()) {
+                customerItemsDtos
+                        .stream()
+                        .map(dto -> Pair.of(dto, CustomerItemMapper.INSTANCE.convert(dto)))
+                        .toList()
+                        .forEach(p -> CustomerItemMapper.INSTANCE.updateCustomerItemJpaAssociation(p.getFirst(),
+                                p.getSecond()));
+            } else {
+                customerItemsDtos
+                        .stream()
+                        .map(dto -> CustomerItemMapper.INSTANCE.convert(dto))
+                        .toList()
+                        .forEach(item -> customer.addCustomerItem(item));
+            }
+        } else {
+            customer.getCustomerItems().forEach(item -> item.setCustomer(null));
+        }
+
+        // create or update addresses
+        if (addressDto != null) {
+            if (customer.getAddress() != null)
+                AddressMapper.INSTANCE.updateAddressJpaAsociation(addressDto, customer.getAddress());
+            else
+                customer.addAddress(AddressMapper.INSTANCE.convertDto(addressDto));
+        } else {
+            customer.removeAddress(customer.getAddress());
+        }
     }
 }

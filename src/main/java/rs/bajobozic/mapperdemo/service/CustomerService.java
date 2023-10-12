@@ -53,7 +53,7 @@ public class CustomerService {
                                 "Customer with first name: " + customerDto.getFirstName() + " not found"));
         CustomerMapper.INSTANCE.update(customerDto, customer);
         customerRepository.save(customer);
-        return CustomerMapper.INSTANCE.convert(customer);
+        return customerDto;
     }
 
     @Transactional

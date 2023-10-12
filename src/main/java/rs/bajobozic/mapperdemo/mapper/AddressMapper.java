@@ -1,7 +1,9 @@
 package rs.bajobozic.mapperdemo.mapper;
 
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import rs.bajobozic.mapperdemo.dto.AddressDto;
@@ -19,4 +21,7 @@ public interface AddressMapper {
     @Mapping(target = "houseNumber", expression = "java(String.valueOf( addressDto.getNumber()))")
     @Mapping(source = "city", target = "cityName")
     Address convertDto(AddressDto addressDto);
+
+    @InheritConfiguration
+    void updateAddressJpaAsociation(AddressDto addressDto, @MappingTarget Address address);
 }
