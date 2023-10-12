@@ -1,5 +1,7 @@
 package rs.bajobozic.mapperdemo.mapper;
 
+import java.util.List;
+
 import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,6 +23,12 @@ public interface CustomerItemMapper {
     @Mapping(source = "item", target = "item")
     CustomerItemDto covertToDto(CustomerItem customerItem);
 
+    List<CustomerItem> convertToCustomerItemCollection(List<CustomerItemDto> customerItemList);
+
     @InheritConfiguration
     void updateCustomerItem(CustomerItemDto customerItemDto, @MappingTarget CustomerItem customerItem);
+
+    @InheritConfiguration
+    void updateCustomerItemList(List<CustomerItemDto> customerItemDtoList,
+            @MappingTarget List<CustomerItem> customerItemList);
 }

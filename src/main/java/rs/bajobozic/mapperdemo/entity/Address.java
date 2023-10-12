@@ -1,6 +1,5 @@
 package rs.bajobozic.mapperdemo.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,12 +23,12 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String street;
-    @Column(name="house_number")
+    @Column(name = "house_number")
     private String houseNumber;
     private Integer zip;
-    @Column(name="city_name")
+    @Column(name = "city_name")
     private String cityName;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "fk_address_id")
     private Customer customer;
 }

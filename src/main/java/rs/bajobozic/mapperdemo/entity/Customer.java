@@ -49,12 +49,27 @@ public class Customer {
         if (items == null)
             return;
         if (this.customerItems == null)
-            customerItems = new ArrayList<>();
-        items.forEach(item -> {
-            this.customerItems.add(item);
-            item.setCustomer(this);
-        });
+            this.customerItems = new ArrayList<>();
+        ListIterator<CustomerItem> listIterator = items.listIterator();
+        while (listIterator.hasNext()) {
+            var item = listIterator.next();
+            if (item != null) {
+                this.customerItems.add(item);
+                item.setCustomer(this);
+            }
+        }
+    }
 
+    public void updateCustomerItems() {
+        if (this.customerItems == null)
+            this.customerItems = new ArrayList<>();
+        ListIterator<CustomerItem> listIterator = this.customerItems.listIterator();
+        while (listIterator.hasNext()) {
+            var item = listIterator.next();
+            if (item != null) {
+                item.setCustomer(this);
+            }
+        }
     }
 
     public void removeCustomerItems(List<CustomerItem> list) {

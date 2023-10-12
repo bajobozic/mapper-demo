@@ -10,13 +10,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
-import org.springframework.data.util.Pair;
 
 import rs.bajobozic.mapperdemo.dto.AddressDto;
 import rs.bajobozic.mapperdemo.dto.CustomerDto;
 import rs.bajobozic.mapperdemo.dto.CustomerItemDto;
 import rs.bajobozic.mapperdemo.entity.Customer;
-import rs.bajobozic.mapperdemo.entity.CustomerItem;
 
 @Mapper(uses = { AddressMapper.class, CustomerItemMapper.class }, imports = { String.class, LocalDate.class,
         DateTimeFormatter.class })
@@ -51,23 +49,14 @@ public interface CustomerMapper {
         // create or update addresses
         if (customerItemsDtos != null) {
             if (customer.getCustomerItems() != null && !customer.getCustomerItems().isEmpty()) {
-                customerItemsDtos
-                        .stream()
-                        .map(dto -> Pair.of(dto, CustomerItemMapper.INSTANCE.convert(dto)))
-                        .toList()
-                        .forEach(p -> CustomerItemMapper.INSTANCE.updateCustomerItem(p.getFirst(),
-                                p.getSecond()));
+                CustomerItemMapper.INSTANCE.updateCustomerItemList(customerItemsDtos, customer.getCustomerItems());
+                customer.updateCustomerItems();
             } else {
-                var list = customerItemsDtos
-                        .stream()
-                        .map(dto -> CustomerItemMapper.INSTANCE.convert(dto))
-                        .toList();
-                customer.addCustomerItems(list);
-
+                customer.addCustomerItems(
+                        CustomerItemMapper.INSTANCE.convertToCustomerItemCollection(customerItemsDtos));
             }
         } else {
-            List<CustomerItem> list = customer.getCustomerItems();
-            customer.removeCustomerItems(list);
+            customer.removeCustomerItems(customer.getCustomerItems());
         }
 
         // create or update addresses
