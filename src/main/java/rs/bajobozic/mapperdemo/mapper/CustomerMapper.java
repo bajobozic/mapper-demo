@@ -3,7 +3,6 @@ package rs.bajobozic.mapperdemo.mapper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InheritConfiguration;
@@ -67,8 +66,8 @@ public interface CustomerMapper {
 
             }
         } else {
-            ListIterator<CustomerItem> listIterator = customer.getCustomerItems().listIterator();
-            customer.removeCustomerItems(listIterator);
+            List<CustomerItem> list = customer.getCustomerItems();
+            customer.removeCustomerItems(list);
         }
 
         // create or update addresses

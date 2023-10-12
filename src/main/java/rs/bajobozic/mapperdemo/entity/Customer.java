@@ -46,6 +46,8 @@ public class Customer {
     // this is needed for correct saving customer into DB when using JPA
     // it's neccessary to do it manualy
     public void addCustomerItems(List<CustomerItem> items) {
+        if (items == null)
+            return;
         if (this.customerItems == null)
             customerItems = new ArrayList<>();
         items.forEach(item -> {
@@ -55,7 +57,10 @@ public class Customer {
 
     }
 
-    public void removeCustomerItems(ListIterator<CustomerItem> listIterator) {
+    public void removeCustomerItems(List<CustomerItem> list) {
+        if (list == null)
+            return;
+        ListIterator<CustomerItem> listIterator = list.listIterator();
         while (listIterator.hasNext()) {
             var item = listIterator.next();
             if (item != null) {
@@ -63,17 +68,20 @@ public class Customer {
                 listIterator.remove();
             }
         }
-
     }
 
     // this is needed for correct saving customer into DB when using JPA
     // it's neccessary to do it manualy
     public void addAddress(Address address) {
+        if (address == null)
+            return;
         this.address = address;
         address.setCustomer(this);
     }
 
     public void removeAddress(Address address) {
+        if (address == null)
+            return;
         address.setCustomer(null);
         this.address = null;
     }
