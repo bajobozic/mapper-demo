@@ -39,18 +39,19 @@ public interface CustomerMapper {
     Customer convertDto(CustomerDto homeDto);
 
     @InheritConfiguration
-    void update(CustomerDto homeDto, @MappingTarget Customer home);
+    void update(CustomerDto customerDto, @MappingTarget Customer customer);
 
     @AfterMapping
     default void updateJpaRelations(CustomerDto customerDto, @MappingTarget Customer customer) {
         List<CustomerItemDto> customerItemsDtos = customerDto.getCustomerItems();
         AddressDto addressDto = customerDto.getAddress();
-
-        customerItemsDtos
-                .stream()
-                .map(dto -> CustomerItemMapper.INSTANCE.convert(dto))
-                .toList()
-                .forEach(item -> customer.addCustomerItem(item));
-        customer.addAddress(AddressMapper.INSTANCE.convertDto(addressDto));
+        if (customerItemsDtos != null)
+            customerItemsDtos
+                    .stream()
+                    .map(dto -> CustomerItemMapper.INSTANCE.convert(dto))
+                    .toList()
+                    .forEach(item -> customer.addCustomerItem(item));
+        if (addressDto != null)
+            customer.addAddress(AddressMapper.INSTANCE.convertDto(addressDto));
     }
 }
