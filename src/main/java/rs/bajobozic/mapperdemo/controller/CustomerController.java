@@ -44,10 +44,9 @@ public class CustomerController {
         customerService.createCustomer(customerDto);
     }
 
-    @PutMapping(path = "/update/{firstName}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable(name = "firstName") String firstName,
-            @RequestBody CustomerDto customerDto) {
-        return ResponseEntity.ok().body(customerService.updateCustomer(firstName, customerDto));
+    @PutMapping(path = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomerDto> updateCustomer(@RequestBody CustomerDto customerDto) {
+        return ResponseEntity.ok().body(customerService.updateCustomer(customerDto));
     }
 
     @PatchMapping(path = "/updateDepartment/{firstName}/{department}")

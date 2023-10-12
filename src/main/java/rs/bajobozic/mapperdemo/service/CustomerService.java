@@ -46,10 +46,11 @@ public class CustomerService {
     }
 
     @Transactional
-    public CustomerDto updateCustomer(String firstName, CustomerDto customerDto) {
-        var customer = customerRepository.findCustomerByFirstName(firstName)
+    public CustomerDto updateCustomer(CustomerDto customerDto) {
+        var customer = customerRepository.findCustomerByFirstName(customerDto.getFirstName())
                 .orElseThrow(
-                        () -> new IllegalArgumentException("Customer with first name: " + firstName + " not found"));
+                        () -> new IllegalArgumentException(
+                                "Customer with first name: " + customerDto.getFirstName() + " not found"));
         CustomerMapper.INSTANCE.update(customerDto, customer);
         customerRepository.save(customer);
         return CustomerMapper.INSTANCE.convert(customer);
