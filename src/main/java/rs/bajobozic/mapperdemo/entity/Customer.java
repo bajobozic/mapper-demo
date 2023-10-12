@@ -45,21 +45,6 @@ public class Customer {
 
     // this is needed for correct saving customer into DB when using JPA
     // it's neccessary to do it manualy
-    public void addCustomerItems(List<CustomerItem> items) {
-        if (items == null)
-            return;
-        if (this.customerItems == null)
-            this.customerItems = new ArrayList<>();
-        ListIterator<CustomerItem> listIterator = items.listIterator();
-        while (listIterator.hasNext()) {
-            var item = listIterator.next();
-            if (item != null) {
-                this.customerItems.add(item);
-                item.setCustomer(this);
-            }
-        }
-    }
-
     public void updateCustomerItems() {
         if (this.customerItems == null)
             this.customerItems = new ArrayList<>();

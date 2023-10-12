@@ -28,7 +28,4 @@ public interface CustomerItemMapper {
     @InheritConfiguration
     void updateCustomerItem(CustomerItemDto customerItemDto, @MappingTarget CustomerItem customerItem);
 
-    @InheritConfiguration
-    void updateCustomerItemList(List<CustomerItemDto> customerItemDtoList,
-            @MappingTarget List<CustomerItem> customerItemList);
 }

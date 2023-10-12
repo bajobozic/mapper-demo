@@ -35,7 +35,7 @@ public interface CustomerMapper {
     @Mapping(target = "createdAt", expression = "java(LocalDate.now())")
     @Mapping(source = "department", target = "department")
     @Mapping(target = "address", ignore = true)
-    @Mapping(target = "customerItems", ignore = true)
+    @Mapping(source = "customerItems", target = "customerItems")
     Customer convertDto(CustomerDto customerDto);
 
     @InheritConfiguration
@@ -48,13 +48,7 @@ public interface CustomerMapper {
 
         // create or update addresses
         if (customerItemsDtos != null) {
-            if (customer.getCustomerItems() != null && !customer.getCustomerItems().isEmpty()) {
-                CustomerItemMapper.INSTANCE.updateCustomerItemList(customerItemsDtos, customer.getCustomerItems());
-                customer.updateCustomerItems();
-            } else {
-                customer.addCustomerItems(
-                        CustomerItemMapper.INSTANCE.convertToCustomerItemCollection(customerItemsDtos));
-            }
+            customer.updateCustomerItems();
         } else {
             customer.removeCustomerItems(customer.getCustomerItems());
         }
