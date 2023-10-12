@@ -51,10 +51,22 @@ public class Customer {
         item.setCustomer(this);
     }
 
+    public void removeCustomerItem(CustomerItem item) {
+         item.setCustomer(null);
+        if (customerItems == null || customerItems.isEmpty())
+            return;
+        this.customerItems.remove(item);
+    }
+
     // this is needed for correct saving customer into DB when using JPA
     // it's neccessary to do it manualy
     public void addAddress(Address address) {
         this.address = address;
         address.setCustomer(this);
+    }
+
+    public void removeAddress(Address address) {
+        this.address = null;
+        address.setCustomer(null);
     }
 }
