@@ -23,5 +23,5 @@ public interface AddressMapper {
     Address convertDto(AddressDto addressDto);
 
     @InheritConfiguration
-    void updateAddressJpaAsociation(AddressDto addressDto, @MappingTarget Address address);
+    void updateAddress(AddressDto addressDto, @MappingTarget Address address);
 }

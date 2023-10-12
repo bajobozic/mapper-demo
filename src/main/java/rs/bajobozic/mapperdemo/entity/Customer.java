@@ -3,6 +3,7 @@ package rs.bajobozic.mapperdemo.entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,18 +45,25 @@ public class Customer {
 
     // this is needed for correct saving customer into DB when using JPA
     // it's neccessary to do it manualy
-    public void addCustomerItem(CustomerItem item) {
-        if (customerItems == null)
+    public void addCustomerItems(List<CustomerItem> items) {
+        if (this.customerItems == null)
             customerItems = new ArrayList<>();
-        this.customerItems.add(item);
-        item.setCustomer(this);
+        items.forEach(item -> {
+            this.customerItems.add(item);
+            item.setCustomer(this);
+        });
+
     }
 
-    public void removeCustomerItem(CustomerItem item) {
-         item.setCustomer(null);
-        if (customerItems == null || customerItems.isEmpty())
-            return;
-        this.customerItems.remove(item);
+    public void removeCustomerItems(ListIterator<CustomerItem> listIterator) {
+        while (listIterator.hasNext()) {
+            var item = listIterator.next();
+            if (item != null) {
+                item.setCustomer(null);
+                listIterator.remove();
+            }
+        }
+
     }
 
     // this is needed for correct saving customer into DB when using JPA
@@ -67,6 +75,6 @@ public class Customer {
 
     public void removeAddress(Address address) {
         address.setCustomer(null);
-        this.address=null;
+        this.address = null;
     }
 }

@@ -22,5 +22,5 @@ public interface CustomerItemMapper {
     CustomerItemDto covertToDto(CustomerItem customerItem);
 
     @InheritConfiguration
-    void updateCustomerItemJpaAssociation(CustomerItemDto customerItemDto, @MappingTarget CustomerItem customerItem);
+    void updateCustomerItem(CustomerItemDto customerItemDto, @MappingTarget CustomerItem customerItem);
 }
