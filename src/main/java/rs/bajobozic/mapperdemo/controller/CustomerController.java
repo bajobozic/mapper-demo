@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,8 +63,20 @@ public class CustomerController {
         customerService.deleteCustomer(firstName);
     }
 
-    @PutMapping(value = "update/address/{id}")
+    @PutMapping(value = "/update/address/{id}")
     public ResponseEntity<AddressDto> updateAddressDto(@PathVariable String id, @RequestBody AddressDto entity) {
         return ResponseEntity.ok().body(customerService.updateAddress(id, entity));
+    }
+
+    @GetMapping(value = "/addresses")
+    public ResponseEntity<List<CustomerDto>> getAllCustomerWithHouseNumber(
+            @RequestParam("houseNumber") String houseNumber) {
+        return ResponseEntity.ok().body(customerService.getAllCustomersWithHomeNumber(houseNumber));
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAll() {
+        customerService.deleteAll();
     }
 }

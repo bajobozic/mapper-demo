@@ -2,9 +2,11 @@ package rs.bajobozic.mapperdemo.mapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InheritConfiguration;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -34,6 +36,11 @@ public interface CustomerMapper {
     @Mapping(source = "address", target = "address")
     @Mapping(source = "customerItems", target = "customerItems")
     Customer convertFromDto(CustomerDto customerDto);
+
+    List<Customer> convertToCustomerCollection(List<CustomerDto> customerDtoList);
+
+    @InheritInverseConfiguration
+    List<CustomerDto> convertToCustomerDtoCollection(List<Customer> customerList);
 
     @InheritConfiguration
     void update(CustomerDto customerDto, @MappingTarget Customer customer);

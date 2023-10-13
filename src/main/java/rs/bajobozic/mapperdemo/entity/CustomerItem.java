@@ -1,5 +1,7 @@
 package rs.bajobozic.mapperdemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,5 +28,6 @@ public class CustomerItem {
     private String item;
     @ManyToOne
     @JoinColumn(name = "fk_customer_id")
+    @JsonIgnoreProperties("customerItems")
     private Customer customer;
 }

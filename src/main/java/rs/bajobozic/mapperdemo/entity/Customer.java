@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +36,7 @@ public class Customer {
     @Column(name = "last_name")
     private String lastName;
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("customer")
     private Address address;
     @Column(nullable = false)
     private String department;
@@ -41,6 +44,7 @@ public class Customer {
     private LocalDate createdAt;
     @Column(name = "customer_items")
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("customer")
     private List<CustomerItem> customerItems = new ArrayList<CustomerItem>();
 
     // this is needed for correct saving customer into DB when using JPA

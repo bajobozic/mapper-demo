@@ -1,5 +1,7 @@
 package rs.bajobozic.mapperdemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,5 +34,6 @@ public class Address {
     private String cityName;
     @OneToOne
     @JoinColumn(name = "fk_address_id")
+    @JsonIgnoreProperties("address")
     private Customer customer;
 }
