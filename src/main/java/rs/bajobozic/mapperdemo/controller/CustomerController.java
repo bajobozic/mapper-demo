@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import rs.bajobozic.mapperdemo.dto.AddressDto;
 import rs.bajobozic.mapperdemo.dto.CustomerDto;
 import rs.bajobozic.mapperdemo.service.CustomerService;
 
@@ -61,4 +62,8 @@ public class CustomerController {
         customerService.deleteCustomer(firstName);
     }
 
+    @PutMapping(value = "update/address/{id}")
+    public ResponseEntity<AddressDto> updateAddressDto(@PathVariable String id, @RequestBody AddressDto entity) {
+        return ResponseEntity.ok().body(customerService.updateAddress(id, entity));
+    }
 }

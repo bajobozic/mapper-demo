@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import rs.bajobozic.mapperdemo.dto.AddressDto;
 import rs.bajobozic.mapperdemo.dto.CustomerDto;
 import rs.bajobozic.mapperdemo.entity.Customer;
 import rs.bajobozic.mapperdemo.exception.CustomerNotFoundException;
+import rs.bajobozic.mapperdemo.mapper.AddressMapper;
 import rs.bajobozic.mapperdemo.mapper.CustomerMapper;
 import rs.bajobozic.mapperdemo.repository.CustomerRepository;
 
@@ -18,7 +20,8 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public List<CustomerDto> getAllCustomers() {
-        var customers = customerRepository.findAll().stream().map(customer -> CustomerMapper.INSTANCE.convertToDto(customer))
+        var customers = customerRepository.findAll().stream()
+                .map(customer -> CustomerMapper.INSTANCE.convertToDto(customer))
                 .toList();
         return customers;
     }
@@ -64,5 +67,16 @@ public class CustomerService {
         customer.setDepartment(department);
         customerRepository.save(customer);
         return CustomerMapper.INSTANCE.convertToDto(customer);
+    }
+
+    @Transactional
+    public AddressDto updateAddress(String id, AddressDto addressDto) {
+        var customer = customerRepository.findCustomerByFirstName(id)
+                .orElseThrow(
+                        () -> new IllegalArgumentException(
+                                "Customer with first name: " + id + " not found"));
+        AddressMapper.INSTANCE.updateAddress(addressDto, customer.getAddress());
+        customerRepository.save(customer);
+        return addressDto;
     }
 }
