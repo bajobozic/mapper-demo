@@ -57,10 +57,10 @@ public class Customer {
         }
     }
 
-    public void removeCustomerItems(List<CustomerItem> list) {
-        if (list == null)
+    public void removeCustomerItems() {
+        if (this.customerItems == null)
             return;
-        ListIterator<CustomerItem> listIterator = list.listIterator();
+        ListIterator<CustomerItem> listIterator = this.customerItems.listIterator();
         while (listIterator.hasNext()) {
             var item = listIterator.next();
             if (item != null) {
@@ -76,10 +76,10 @@ public class Customer {
         this.address.setCustomer(this);
     }
 
-    public void removeAddress(Address address) {
-        if (address == null)
+    public void removeAddress() {
+        if (this.address == null)
             return;
-        address.setCustomer(null);
+        this.address.setCustomer(null);
         this.address = null;
     }
 

@@ -2,7 +2,6 @@ package rs.bajobozic.mapperdemo.mapper;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import org.mapstruct.AfterMapping;
 import org.mapstruct.InheritConfiguration;
@@ -11,9 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-import rs.bajobozic.mapperdemo.dto.AddressDto;
 import rs.bajobozic.mapperdemo.dto.CustomerDto;
-import rs.bajobozic.mapperdemo.dto.CustomerItemDto;
 import rs.bajobozic.mapperdemo.entity.Customer;
 
 @Mapper(uses = { AddressMapper.class, CustomerItemMapper.class }, imports = { String.class, LocalDate.class,
@@ -43,21 +40,18 @@ public interface CustomerMapper {
 
     @AfterMapping
     default void updateAssociatedTables(CustomerDto customerDto, @MappingTarget Customer customer) {
-        List<CustomerItemDto> customerItemsDtos = customerDto.getCustomerItems();
-        AddressDto addressDto = customerDto.getAddress();
-
         // init, update or delete association mappings for customer items
-        if (customerItemsDtos != null) {
+        if (customerDto.getCustomerItems() != null) {
             customer.updateCustomerItems();
         } else {
-            customer.removeCustomerItems(customer.getCustomerItems());
+            customer.removeCustomerItems();
         }
 
         // init, update or delete association mappings for addresses
-        if (addressDto != null) {
+        if (customerDto.getAddress() != null) {
             customer.updateAddress();
         } else {
-            customer.removeAddress(customer.getAddress());
+            customer.removeAddress();
         }
     }
 }
