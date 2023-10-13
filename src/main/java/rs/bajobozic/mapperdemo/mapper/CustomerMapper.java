@@ -38,6 +38,8 @@ public interface CustomerMapper {
     @InheritConfiguration
     void update(CustomerDto customerDto, @MappingTarget Customer customer);
 
+    // Set logic here for every bidirectional @OneToOne, @OneToMany or @ManyToMany
+    // associations update
     @AfterMapping
     default void updateAssociatedTables(CustomerDto customerDto, @MappingTarget Customer customer) {
         // init, update or delete association mappings for customer items
