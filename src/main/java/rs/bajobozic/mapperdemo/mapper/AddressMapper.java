@@ -1,6 +1,9 @@
 package rs.bajobozic.mapperdemo.mapper;
 
+import java.util.List;
+
 import org.mapstruct.InheritConfiguration;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -22,6 +25,11 @@ public interface AddressMapper {
     @Mapping(source = "city", target = "cityName")
     @Mapping(target = "customer", ignore = true)
     Address convertFromDto(AddressDto addressDto);
+
+    List<AddressDto> convertToDtoCollection(List<Address> addressesList);
+
+    @InheritInverseConfiguration
+    List<Address> convertFromDtoCollection(List<AddressDto> addressesList);
 
     @InheritConfiguration
     void updateAddress(AddressDto addressDto, @MappingTarget Address address);

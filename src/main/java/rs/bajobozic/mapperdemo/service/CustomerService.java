@@ -85,6 +85,11 @@ public class CustomerService {
         return CustomerMapper.INSTANCE.convertToCustomerDtoCollection(customerList);
     }
 
+    public List<AddressDto> getAllAddressesForHomeNumber(String houseNumber) {
+        var addressesList = customerRepository.findByAddressHomeNumber(houseNumber);
+        return AddressMapper.INSTANCE.convertToDtoCollection(addressesList);
+    }
+
     @Transactional
     public void deleteAll() {
         customerRepository.deleteAll();

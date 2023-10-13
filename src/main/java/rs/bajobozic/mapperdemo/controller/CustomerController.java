@@ -74,6 +74,12 @@ public class CustomerController {
         return ResponseEntity.ok().body(customerService.getAllCustomersWithHomeNumber(houseNumber));
     }
 
+    @GetMapping(value = "/address")
+    public ResponseEntity<List<AddressDto>> getAllAddressesForHouseNumber(
+            @RequestParam("houseNumber") String houseNumber) {
+        return ResponseEntity.ok().body(customerService.getAllAddressesForHomeNumber(houseNumber));
+    }
+
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAll() {
