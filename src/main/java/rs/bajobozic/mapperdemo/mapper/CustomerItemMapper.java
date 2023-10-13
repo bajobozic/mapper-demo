@@ -18,7 +18,7 @@ public interface CustomerItemMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "item", target = "item")
     @Mapping(target = "customer", ignore = true)
-    CustomerItem convert(CustomerItemDto customerItemDto);
+    CustomerItem convertFromDto(CustomerItemDto customerItemDto);
 
     @Mapping(source = "item", target = "item")
     CustomerItemDto covertToDto(CustomerItem customerItem);

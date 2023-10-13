@@ -15,13 +15,13 @@ public interface AddressMapper {
 
     @Mapping(target = "number", expression = "java(Integer.parseInt( address.getHouseNumber()))")
     @Mapping(source = "cityName", target = "city")
-    AddressDto convert(Address address);
+    AddressDto convertToDto(Address address);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "houseNumber", expression = "java(String.valueOf( addressDto.getNumber()))")
     @Mapping(source = "city", target = "cityName")
     @Mapping(target = "customer", ignore = true)
-    Address convertDto(AddressDto addressDto);
+    Address convertFromDto(AddressDto addressDto);
 
     @InheritConfiguration
     void updateAddress(AddressDto addressDto, @MappingTarget Address address);

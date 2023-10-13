@@ -27,7 +27,7 @@ public interface CustomerMapper {
     @Mapping(source = "department", target = "department")
     @Mapping(source = "address", target = "address")
     @Mapping(source = "customerItems", target = "customerItems")
-    CustomerDto convert(Customer customer);
+    CustomerDto convertToDto(Customer customer);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "firstName", target = "firstName")
@@ -36,7 +36,7 @@ public interface CustomerMapper {
     @Mapping(source = "department", target = "department")
     @Mapping(source = "address", target = "address")
     @Mapping(source = "customerItems", target = "customerItems")
-    Customer convertDto(CustomerDto customerDto);
+    Customer convertFromDto(CustomerDto customerDto);
 
     @InheritConfiguration
     void update(CustomerDto customerDto, @MappingTarget Customer customer);

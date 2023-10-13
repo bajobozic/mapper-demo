@@ -18,7 +18,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public List<CustomerDto> getAllCustomers() {
-        var customers = customerRepository.findAll().stream().map(customer -> CustomerMapper.INSTANCE.convert(customer))
+        var customers = customerRepository.findAll().stream().map(customer -> CustomerMapper.INSTANCE.convertToDto(customer))
                 .toList();
         return customers;
     }
@@ -26,7 +26,7 @@ public class CustomerService {
     public CustomerDto getCustomerByFirstName(String firstName) {
         Customer customer = customerRepository.findCustomerByFirstName(firstName)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer with first name not found", firstName));
-        return CustomerMapper.INSTANCE.convert(customer);
+        return CustomerMapper.INSTANCE.convertToDto(customer);
     }
 
     @Transactional
@@ -35,7 +35,7 @@ public class CustomerService {
         if (dbCustomer.isPresent())
             throw new IllegalArgumentException(
                     "Customer with first name " + customerDto.getFirstName() + " already exist");
-        customerRepository.save(CustomerMapper.INSTANCE.convertDto(customerDto));
+        customerRepository.save(CustomerMapper.INSTANCE.convertFromDto(customerDto));
     }
 
     @Transactional
@@ -63,6 +63,6 @@ public class CustomerService {
                         () -> new IllegalArgumentException("Customer with first name: " + firstName + " not found"));
         customer.setDepartment(department);
         customerRepository.save(customer);
-        return CustomerMapper.INSTANCE.convert(customer);
+        return CustomerMapper.INSTANCE.convertToDto(customer);
     }
 }
