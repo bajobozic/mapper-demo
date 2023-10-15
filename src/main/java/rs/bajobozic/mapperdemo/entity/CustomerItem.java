@@ -1,6 +1,6 @@
 package rs.bajobozic.mapperdemo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +28,6 @@ public class CustomerItem {
     private String item;
     @ManyToOne
     @JoinColumn(name = "fk_customer_id")
-    @JsonIgnoreProperties("customerItems")
+    @JsonBackReference
     private Customer customer;
 }
