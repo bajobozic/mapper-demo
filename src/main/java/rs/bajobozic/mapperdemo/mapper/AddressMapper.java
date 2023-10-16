@@ -21,7 +21,7 @@ public interface AddressMapper {
     AddressDto convertToDto(Address address);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "houseNumber", expression = "java(String.valueOf( addressDto.getNumber()))")
+    @Mapping(target = "houseNumber", expression = "java(String.valueOf( addressDto.number()))")
     @Mapping(source = "city", target = "cityName")
     @Mapping(target = "customer", ignore = true)
     Address convertFromDto(AddressDto addressDto);

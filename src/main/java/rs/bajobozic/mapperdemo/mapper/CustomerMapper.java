@@ -50,14 +50,14 @@ public interface CustomerMapper {
     @AfterMapping
     default void updateAssociatedTables(CustomerDto customerDto, @MappingTarget Customer customer) {
         // init, update or delete association mappings for customer items
-        if (customerDto.getCustomerItems() != null) {
+        if (customerDto.customerItems() != null) {
             customer.updateCustomerItems();
         } else {
             customer.removeCustomerItems();
         }
 
         // init, update or delete association mappings for addresses
-        if (customerDto.getAddress() != null) {
+        if (customerDto.address() != null) {
             customer.updateAddress();
         } else {
             customer.removeAddress();

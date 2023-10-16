@@ -34,10 +34,10 @@ public class CustomerService {
 
     @Transactional
     public void createCustomer(CustomerDto customerDto) {
-        var dbCustomer = customerRepository.findCustomerByFirstName(customerDto.getFirstName());
+        var dbCustomer = customerRepository.findCustomerByFirstName(customerDto.firstName());
         if (dbCustomer.isPresent())
             throw new IllegalArgumentException(
-                    "Customer with first name " + customerDto.getFirstName() + " already exist");
+                    "Customer with first name " + customerDto.firstName() + " already exist");
         customerRepository.save(CustomerMapper.INSTANCE.convertFromDto(customerDto));
     }
 
@@ -50,10 +50,10 @@ public class CustomerService {
 
     @Transactional
     public CustomerDto updateCustomer(CustomerDto customerDto) {
-        var customer = customerRepository.findCustomerByFirstName(customerDto.getFirstName())
+        var customer = customerRepository.findCustomerByFirstName(customerDto.firstName())
                 .orElseThrow(
                         () -> new IllegalArgumentException(
-                                "Customer with first name: " + customerDto.getFirstName() + " not found"));
+                                "Customer with first name: " + customerDto.firstName() + " not found"));
         CustomerMapper.INSTANCE.update(customerDto, customer);
         customerRepository.save(customer);
         return customerDto;
